@@ -1,0 +1,14 @@
+# smartsheetapp-netcore
+**/.vscode
+**/bin
+**/obj
+**/Properties
+appsettings.Development.json
+appsettings.json
+
+# smartsheetapp-react
+**/build
+**/node_modules
+package-lock.json
+package.json
+.eslintcache

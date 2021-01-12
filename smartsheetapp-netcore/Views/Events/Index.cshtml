@@ -1,0 +1,110 @@
+﻿@using smartsheetapp_netcore.Models;
+@model IEnumerable<EventCallbackViewModel>
+ 
+@{
+    Layout = null;
+}
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewData["Title"] - Smartsheet App Netcore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
+        body { font-family: Arial; font-size: 10pt; }
+        .Grid { border: 1px solid #ccc; border-collapse: collapse; background-color: #fff; }
+        .Grid th { background-color: #B8DBFD; color: #333; font-weight: bold; }
+        .Grid th, .Grid td { padding: 5px; border: 1px solid #ccc; }
+        .Grid img { cursor:pointer; }
+        .ChildGrid { width: 100%; }
+        .ChildGrid th { background-color: #6C6C6C; color: #fff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Smartsheet App Netcore</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ManageWebhooks" asp-action="Index">Manage Webhooks</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <table cellpadding="0" cellspacing="0" class="Grid">
+                <tr>
+                    <th></th>
+                    <th>Sheet</th>
+                    <th>DateTime</th>
+                </tr>
+                @foreach (EventCallbackViewModel ecm in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/Content/Images/plus-sign.png"/>
+                            <div style="display:none">
+                                <table cellpadding="0" cellspacing="0" class="ChildGrid">
+                                    <tr>
+                                        <th>Object Type</th>
+                                        <th>Event Type</th>
+                                        <th>Row's First Cell</th>
+                                        <th>Column</th>
+                                        <th>Value</th>
+                                        <th>User</th>
+                                        <th>DateTime</th>
+                                    </tr>
+                                    @foreach (EventViewModel em in ecm.events)
+                                    {
+                                        <tr>
+                                            <td>@em.objectType</td>
+                                            <td>@em.eventType</td>
+                                            <td>@em.rowFirstCell</td>
+                                            <td>@em.columnName</td>
+                                            <td>@em.cellValue</td>
+                                            <td>@em.userId</td>
+                                            <td>@em.timestamp.ToString()</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </td>
+                        <td>@ecm.scopeObjectName</td>
+                        <td>@ecm.timestamp.ToString()</td>
+                    </tr>
+                }
+            </table>
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Smartsheet App Netcore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("click", "img[src*='plus-sign.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/Content/Images/minus-symbol.png");
+        });
+        $("body").on("click", "img[src*='minus-symbol.png']", function () {
+            $(this).attr("src", "/Content/Images/plus-sign.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+@model List<ManageWebhooksViewModel>
+
+@{
+    ViewData["Title"] = "Manage Webhooks";
+}
+
+@using (Html.BeginForm("ToggleWebhookEnabled", "ManageWebhooks", FormMethod.Post))
+{
+    <ul>
+        @foreach (ManageWebhooksViewModel mwvm in Model)
+        {
+            <li>
+                @Html.DisplayFor(x => mwvm.sheetName)
+                @Html.HiddenFor(x => mwvm.sheetName)
+                @Html.CheckBoxFor(x => mwvm.Enabled)
+                @Html.HiddenFor(x => mwvm.Id)
+            </li>
+        }
+    </ul>    
+    <button type="submit">Submit</button>
+}
