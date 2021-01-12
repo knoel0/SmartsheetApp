@@ -15,4 +15,4 @@ SmartsheetApp is a Web application that monitors, manages and stores sheet chang
 - Implementing dependancy injection
 
 ## Demo
-![](../Demo/demo.gif)
+![Demo](../Demo/demo.gif)
